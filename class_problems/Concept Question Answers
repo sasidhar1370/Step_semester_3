@@ -1,0 +1,97 @@
+Question 1: Inheriting, Extending, and Modifying Behavior
+  Concept: 
+    Inheritance allows a specialized class (subclass) to receive attributes and methods from a generalized base class (superclass). This eliminates code duplication because common behavior is written once in the base class. The derived class can use these inherited behaviors directly, extend them (by adding new fields or methods), or modify them (by overriding existing methods).
+  Business Example:
+    Consider an Account base class with attributes like accountNumber and balance, and a method deposit(amount). A SavingsAccount subclass inherits deposit(amount) without rewriting it, extends behavior by adding an interestRate attribute and an addInterest() method, and modifies behavior by overriding withdraw() to enforce a minimum balance rule.
+
+Question 2: The 'is-a' Relationship
+  Concept: 
+    The 'is-a' relationship signifies a strict taxonomic specialization: a derived class is a specific, fully functional variant of the base class. It indicates that any instance of the subclass can be substituted anywhere an instance of the superclass is expected without breaking system behavior (known as the Liskov Substitution Principle).
+  Importance: 
+    Identifying a genuine 'is-a' relationship prevents misusing inheritance for mere utility reuse. If a class has or uses another class (e.g., a Car has an Engine), composition should be used instead. Using inheritance where an 'is-a' relationship does not exist creates rigid code, invalid model assumptions, and inappropriate inherited behavior.
+
+Question 3: Method Overriding & Scenario
+  Concept: 
+    Method overriding occurs when a derived class provides a specific implementation for a method that is already defined in its base class. The method signature (name, parameter types, return type) must match the base class declaration.
+  Business Example:
+    An Employee base class defines a method calculateSalary().
+      A SalariedEmployee subclass overrides calculateSalary() to return a fixed monthly base salary.
+      A CommissionEmployee subclass overrides calculateSalary() to return baseSalary + (salesVolume * commissionRate).
+      A ContractorEmployee subclass overrides calculateSalary() to return hourlyRate * hoursWorked.
+    This enables each employee type to compute pay accurately while sharing a uniform interface.
+
+Question 4: Runtime Polymorphism & Dynamic Dispatch
+Concept: 
+  Runtime polymorphism (dynamic method dispatch) is the mechanism where a call to an overridden method is resolved at runtime rather than at compile time when invoked through a base-type reference.
+Execution Mechanism:
+  When a program executes a method call like employee.calculateSalary(), the runtime system checks the actual object type in memory that the reference currently points to (not the declared type of the reference variable). Using a internal virtual method table (vtable), the Java Virtual Machine (JVM) dynamically routes execution to the overridden method implementation residing in the actual object's instantiated class.
+
+Question 5: Polymorphic Collections
+Concept: 
+  A polymorphic collection is a container (such as a List<BaseClass> or BaseClass[]) that holds references of a base type, while storing actual instances of various derived classes.
+Example:
+  List<Shape> shapes = new ArrayList<>();
+  shapes.add(new Circle(5.0));
+  shapes.add(new Rectangle(4.0, 6.0));
+  shapes.add(new Triangle(3.0, 4.0));
+  for (Shape shape : shapes) {
+      System.out.println("Area: " + shape.calculateArea());
+  }
+Advantages:
+  Uniform Processing: Iterates over heterogeneous objects seamlessly without caring about concrete types.
+  Decoupling: Eliminates manual type inspection and explicit casting (instanceof or downcasting).
+  Scalability: New shape types (e.g., Pentagon) can be added to the collection without updating the processing loop.
+
+Question 6: Polymorphism vs. Conditional Logic
+Comparison:
+  Conditional Approach (if-else / switch): Requires checking explicit types or flags (e.g., if (type == "CAR") ... else if (type == "TRUCK") ...).
+Polymorphic Approach: 
+  Invokes a common method on a base reference, delegating execution logic to the subclass.
+
+Question 7: Adding Derived Types Without Breaking Code
+Concept: 
+  Because processing logic interacts exclusively with the abstract base type, it remains unaware of specific concrete classes. Adding a new derived class introduces a new implementation without requiring changes to the host consumer code.
+Payment System Example:
+  A PaymentProcessor processes a List<PaymentMethod> by calling payment.calculateAdjustedAmount(). If a new CryptoPayment class is added:
+    Define class CryptoPayment extends PaymentMethod.
+    Implement calculateAdjustedAmount() within CryptoPayment.
+    Pass CryptoPayment instances into the List<PaymentMethod>.
+    The PaymentProcessor loop requires zero code changes to process CryptoPayment correctly.
+
+Question 8: Inherited vs. Overridden Behavior
+Distinction:
+Inherited Behavior: 
+  The derived class uses the base class implementation directly without modification. Used when the logic is universal across all subclasses.
+Overridden Behavior: 
+  The derived class replaces the base class implementation with custom logic tailored to itself. Used when generic base class behavior is insufficient or inaccurate for the subclass.
+Examples:
+  Inherited: 
+    A User base class has a getLoginTimeStamp() method. Both AdminUser and CustomerUser inherit this method as time-tracking functions identically for both.
+  Overridden: 
+    A User base class has a getAccessLevel() method. AdminUser overrides it to return "FULL_ACCESS", while CustomerUser overrides it to return "RESTRICTED_ACCESS".
+
+Question 9: Pitfalls of Inheritance Solely for Code Reuse
+Why It’s Inappropriate: Inheriting purely to share code without a genuine 'is-a' relationship (e.g., making Stack inherit from ArrayList or Person inherit from DatabaseConnection) violates object modeling boundaries.
+Negative Consequences:
+  Tight Coupling: 
+    Changes in the base class can unpredictably break derived classes (the Fragile Base Class Problem).
+  Exposed Pollution: 
+    Subclasses inherit irrelevant or hazardous methods from the superclass, violating encapsulation.
+  Inflexible Hierarchy: 
+    Languages with single inheritance (like Java) prevent the subclass from inheriting from its actual domain parent.
+  Solution: 
+    Use Composition ("has-a" relationship) instead by embedding an instance of the utility class as a field.
+
+Question 10: Modeling Vehicle Rental Behavior
+Domain Analysis (CarRental vs. TruckRental):
+  Common Behaviors (Shared in VehicleRental Base Class):
+    Tracking rental duration (daysRented), customer information, base daily rate (dailyRate).
+    Generic calculations like calculateBaseFee() = daysRented * dailyRate.
+    Methods like checkAvailability() or confirmReservation().
+    Specialized Behaviors (Unique to Derived Classes):
+  CarRental: 
+    Special calculation including additional driver fees or child seat surcharges.
+  TruckRental: 
+    Special calculation including cargo weight penalties, mileage overage charges, and commercial licensing fees.
+  Effective Design:
+      Define an abstract VehicleRental base class containing shared fields and standard methods (checkAvailability()), with an abstract calculateTotalFee() method. CarRental and TruckRental inherit common state and override calculateTotalFee() to incorporate their respective unique pricing rules.
