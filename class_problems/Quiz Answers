@@ -1,0 +1,18 @@
+1. C) Polymorphism
+2. A) A Car is a Vehicle.
+   B) A Rectangle is a Shape.
+   C) A DatabaseConnection is a NetworkResource.
+3. C) Runtime method dispatch
+4. C) Inheritance-based polymorphism
+5. A) getLoanPeriod() in Book is an example of extending inherited behavior.
+   C) The LibraryItem class defines the common behavior for all library items.
+   D) A DVD object can be processed as a LibraryItem through a common reference.
+6. A) If a Dog object is referred to by an Animal reference, calling makeSound() will execute Dog's makeSound().
+   C) The makeSound() method in Dog is an example of overridden behavior.
+7. C) It allows adding WalletPayment without modifying the existing PaymentProcessor's iteration logic.
+8. A) It leads to tighter coupling and incorrect 'is-a' relationships, making the design rigid.
+9. A) It allows a generic NotificationSender to send various types of notifications without knowing their concrete types.
+   C) It simplifies the process of adding a new notification channel, like InAppNotification, without altering existing sender logic.
+10.A) It simplifies iterating over diverse but related objects.
+   B) It allows for uniform processing of objects with specialized behavior.
+   C) It reduces the need for explicit type casting in common processing loops.
