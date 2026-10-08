@@ -1,0 +1,22 @@
+Question 1
+Abstraction is the process of hiding complex implementation details and showing only the essential features of an object to the user.
+Real-life Example: Using an Automated Teller Machine (ATM).
+What is shown to the user: The screen options like "Withdraw Cash" or "Check Balance", the card slot, and the keypad.
+What is hidden: The underlying database queries, network authentication with the bank's central server, security encryption protocols, and mechanical control of the cash dispenser.
+
+Question 2
+The primary difference is that abstraction focuses on what an object does by exposing a high-level interface, whereas encapsulation focuses on how data is protected by bundling fields and methods together and restricting direct access.
+They work together in a single class by using encapsulation to make instance variables private and control access via getters and setters, while abstraction provides clean, public methods that caller code can use without needing to know or manage internal state variables.
+
+Question 3
+An abstract class defines a constructor so it can initialize common instance fields and perform setup logic shared across all of its subclasses.
+Although an abstract class cannot be instantiated directly using the new keyword, its constructor is executed automatically via an explicit or implicit super() call whenever a concrete subclass object is created.
+
+Question 4
+private: Abstract methods are meant to be overridden in subclasses, but private methods are not inherited or visible to subclasses, making overriding impossible.
+static: Abstract methods rely on instance-level dynamic polymorphism (runtime method overriding), whereas static methods belong to the class and are bound at compile time without dynamic dispatch.
+final: The final modifier explicitly prevents a method from being overridden, which directly contradicts the requirement that an abstract method must be overridden by concrete subclasses.
+
+Question 5
+The diamond problem occurs in multiple class inheritance when a class inherits from two parent classes that both inherit from a single superclass, creating ambiguity about which parent's state or method implementation to inherit.
+Java avoids this by allowing a class to extend only a single superclass, preventing state and structure conflicts. Interfaces historically contained no instance state, and any potential conflicts between default methods in multiple interfaces are caught at compile time, requiring the class to explicitly override the conflicting method.
